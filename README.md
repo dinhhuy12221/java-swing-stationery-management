@@ -1,4 +1,4 @@
-## Snapshots
+## 📷 Snapshots
 
 ![image](preview/Screenshot-2025-12-19-113102.png)
 ![image](preview/Screenshot2025-12-19113334.png)
