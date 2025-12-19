@@ -247,4 +247,9 @@ public class GiaoDienGUI extends JFrame {
 			new DangNhapGUI().setVisible(true);
 		}
 	}
+
+	public static void main(String[] args) {
+		GiaoDienGUI gd = new GiaoDienGUI(new TaiKhoan());
+		gd.setVisible(true);
+	}
 }

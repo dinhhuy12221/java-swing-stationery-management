@@ -337,8 +337,8 @@ private void suaKH() {
 	confirmMode = "Sua";
 }	
 private KhachHang themVaSua() {
-	String tenKH = textFieldMAKH.getText();
-	String maKH = textFieldTenKH.getText();
+	String maKH = textFieldMAKH.getText();
+	String tenKH = textFieldTenKH.getText();
 	String diachi = textFieldDIACHI.getText();
 	String SDT = textFieldSDT.getText();
 	String ngaysinh = "";
@@ -348,7 +348,7 @@ private KhachHang themVaSua() {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	KhachHang KhachHang = new KhachHang(tenKH, maKH, diachi, SDT ,ngaysinh);
+	KhachHang KhachHang = new KhachHang(maKH, tenKH, diachi, SDT ,ngaysinh);
 	return KhachHang;
 		
 		

@@ -57,7 +57,7 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		ArrayList<NhaCungCap> danhSachNCC = new ArrayList<NhaCungCap>();
 		try {
 			getConnection();//cài kết nối cơ sở dữ liệu, bên databaseAccess
-			String s = "SELECT * FROM NHA_CUNG_CAP WHERE TINH_TRANG = 'True'";	//
+			String s = "SELECT * FROM `NHA_CUNG_CAP` WHERE TINH_TRANG = 1";	//
 			statement = conn.createStatement();//khỏi gọi biến
 			resultSet = statement.executeQuery(s);
 			while(resultSet.next()) {
@@ -83,7 +83,7 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select ma_ncc, ma_sp, ten_sp from san_pham where ma_ncc='"+mancc+"'");
+			ResultSet rs = stmt.executeQuery("select ma_ncc, ma_sp, ten_sp from `san_pham` where ma_ncc='"+mancc+"'");
 			while(rs.next()) {
 				SanPham temp = new SanPham();
 				temp.setMaSanPham(rs.getString(2));
@@ -104,7 +104,7 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		try {
 			getConnection();//cài kết nối cơ sở dữ liệu, bên databaseAccess
 			Statement temp=conn.createStatement();
-			ResultSet rs=temp.executeQuery("select count(ma_sp) from san_pham where ma_ncc= '"+mancc+"'");
+			ResultSet rs=temp.executeQuery("select count(ma_sp) from `san_pham` where ma_ncc= '"+mancc+"'");
 			rs.next();//di chuyển tới vị trí đầu
 			sl=rs.getInt(1);
 		} catch(Exception e) {
@@ -120,7 +120,7 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		boolean rs = false;
 		try {
 			getConnection();
-			String sql = "insert into nha_cung_cap values(?,?,?,?,'True')";
+			String sql = "insert into `nha_cung_cap` values(?,?,?,?,1)";
 			ps = conn.prepareStatement(sql);//ps là prepared statement, TRIM XÓA HẾT KHOẢNG TRẮNG	
 			ps.setString(1, ncc.getMaNhaCC());
 			ps.setString(2, ncc.getTenNhaCC().trim());
@@ -143,7 +143,7 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			Statement stmt = conn.createStatement();
-			String sql = "update nha_cung_cap set tinh_trang = 'False' where ma_ncc='"+mancc+"'";
+			String sql = "update `nha_cung_cap` set tinh_trang = 'False' where ma_ncc='"+mancc+"'";
 			dem = stmt.executeUpdate(sql);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -159,7 +159,7 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		try {
 			getConnection();	//HÀM TRIM() XÓA HẾT KHOẢNG TRẮNG
 			Statement stmt = conn.createStatement();
-			String sql = "update nha_cung_cap set ten_ncc='"+ncc.getTenNhaCC()+"', dia_chi='"+ncc.getDiaChi()+"', sdt='"+ncc.getSoDienThoai()+"' where ma_ncc='"+ncc.getMaNhaCC()+"'";
+			String sql = "update `nha_cung_cap` set ten_ncc='"+ncc.getTenNhaCC()+"', dia_chi='"+ncc.getDiaChi()+"', sdt='"+ncc.getSoDienThoai()+"' where ma_ncc='"+ncc.getMaNhaCC()+"'";
 			int temp = stmt.executeUpdate(sql);
 			if(temp>=1)
 				dem=true;
@@ -177,11 +177,11 @@ public class NhaCungCapDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from nha_cung_cap where ma_ncc='"+mancc+"' and ten_ncc='"+tenncc+"'");
+			ResultSet rs = stmt.executeQuery("select * from `nha_cung_cap` where ma_ncc='"+mancc+"' and ten_ncc='"+tenncc+"'");
 			if(mancc.equals(""))
-				rs = stmt.executeQuery("select * from nha_cung_cap where ten_ncc='"+tenncc+"'");
+				rs = stmt.executeQuery("select * from `nha_cung_cap` where ten_ncc='"+tenncc+"'");
 			if(tenncc.equals(""))
-				rs = stmt.executeQuery("select * from nha_cung_cap where ma_ncc='"+mancc+"'");
+				rs = stmt.executeQuery("select * from `nha_cung_cap` where ma_ncc='"+mancc+"'");
 			
 			while(rs.next()) {
 				NhaCungCap temp=new NhaCungCap();

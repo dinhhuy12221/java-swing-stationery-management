@@ -42,6 +42,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 
 public class HoaDonGUI extends JPanel {
 	private JComboBox LHD_cbKhachHang;
@@ -73,6 +74,8 @@ public class HoaDonGUI extends JPanel {
 	private JTextField LHD_tfNhapSoLuong;
 	
 	JDateChooser LHD_dcNgayLap = new JDateChooser();
+	private JTextField XHD_tfTimKiemHD;
+	JComboBox XHD_cbTimKiemHD = new JComboBox();
 	
 	
 	/**
@@ -288,15 +291,6 @@ public class HoaDonGUI extends JPanel {
 		LHD_panelDSSPChon.add(LHD_btnXoaSanPham);
 		LHD_btnXoaSanPham.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
-		JButton LHD_btnLamMoi = new JButton("Làm mới");
-		LHD_btnLamMoi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				LHD_btnLamMoi_LamMoi();
-			}
-		});
-		LHD_btnLamMoi.setBounds(958, 605, 89, 23);
-		panelLapHoaDon.add(LHD_btnLamMoi);
-		
 		JPanel panelXemHoaDon = 
 				new JPanel();
 		tabbedPane.addTab("Xem hóa đơn", null, panelXemHoaDon, null);
@@ -306,9 +300,10 @@ public class HoaDonGUI extends JPanel {
 		XHD_panelDSHD.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Danh s\u00E1ch h\u00F3a \u0111\u01A1n", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		XHD_panelDSHD.setBounds(0, 11, 557, 617);
 		panelXemHoaDon.add(XHD_panelDSHD);
-		XHD_panelDSHD.setLayout(new GridLayout(0, 1, 0, 0));
+		XHD_panelDSHD.setLayout(null);
 		
 		JScrollPane XHD_spDSHD = new JScrollPane();
+		XHD_spDSHD.setBounds(6, 83, 545, 528);
 		XHD_spDSHD.setEnabled(false);
 		XHD_panelDSHD.add(XHD_spDSHD);
 		
@@ -332,6 +327,42 @@ public class HoaDonGUI extends JPanel {
 		XHD_tableDSHD.getTableHeader().setReorderingAllowed(false);;
 		XHD_tableDSHD.setRowHeight(20);
 		XHD_tableDSHD.setModel(XHD_tModelDSHD);
+		XHD_cbTimKiemHD.setModel(new DefaultComboBoxModel(new String[] {"", "Mã hóa đơn", "Mã nhân viên", "Mã khách hàng"}));
+		
+		XHD_cbTimKiemHD.setBackground(Color.WHITE);
+		XHD_cbTimKiemHD.setBounds(78, 41, 113, 21);
+		XHD_panelDSHD.add(XHD_cbTimKiemHD);
+		
+		XHD_tfTimKiemHD = new JTextField();
+		XHD_tfTimKiemHD.setColumns(10);
+		XHD_tfTimKiemHD.setBackground(Color.WHITE);
+		XHD_tfTimKiemHD.setBounds(201, 41, 215, 19);
+		XHD_panelDSHD.add(XHD_tfTimKiemHD);
+		
+		JLabel lblTimKiem = new JLabel("Tìm kiếm");
+		lblTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblTimKiem.setBounds(10, 41, 69, 19);
+		XHD_panelDSHD.add(lblTimKiem);
+		
+		JButton XHD_btnTimKiemHD = new JButton("Tìm");
+		XHD_btnTimKiemHD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				XHD_btnTimKiemHD_TimKiemHD();
+			}
+		});
+		XHD_btnTimKiemHD.setIcon(new ImageIcon("D:\\Study Folder\\SGU\\2022-2023 HK2\\Java\\Project\\image\\icon\\search.png"));
+		XHD_btnTimKiemHD.setBounds(425, 11, 122, 29);
+		XHD_panelDSHD.add(XHD_btnTimKiemHD);
+		
+		JButton XHD_btnHuyTimKiemHD = new JButton("Hủy");
+		XHD_btnHuyTimKiemHD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				XHD_btnHuyTimKiemHD_HuyTimKiemHD();
+			}
+		});
+		XHD_btnHuyTimKiemHD.setIcon(new ImageIcon("D:\\Study Folder\\SGU\\2022-2023 HK2\\Java\\Project\\image\\icon\\close.png"));
+		XHD_btnHuyTimKiemHD.setBounds(426, 43, 122, 29);
+		XHD_panelDSHD.add(XHD_btnHuyTimKiemHD);
 		
 		JPanel XHD_panelTTHD = new JPanel();
 		XHD_panelTTHD.setBorder(new TitledBorder(null, "Th\u00F4ng tin h\u00F3a \u0111\u01A1n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -545,6 +576,7 @@ public class HoaDonGUI extends JPanel {
 		String timKiem = LHD_tfTimKiemSP.getText().toUpperCase();
 		ArrayList<SanPham> dssp = new ArrayList<SanPham>();
 		if(!timKiem.trim().equals("")) {
+			LHD_hienThiDSSP(BLL.SanPhamBLL.layDanhSachSP());
 			for(SanPham sp : LHD_DSSP) {
 				if(sp.getMaSanPham().toUpperCase().contains(timKiem) || sp.getTenSanPham().toUpperCase().contains(timKiem)) {
 					dssp.add(sp);
@@ -617,10 +649,14 @@ public class HoaDonGUI extends JPanel {
 					LHD_tModelDSSPChon.setRowCount(0);
 					LHD_DSSPChon.clear();
 					XHD_HienThiDSHD(BLL.HoaDonBLL.layDanhSachHD());
+					
+					
 				} else JOptionPane.showMessageDialog(null, "Lập hóa đơn không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 			}
 			else JOptionPane.showMessageDialog(null, "Lập hóa đơn không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 		}
+		LHD_tfTongTien.setText("0.0");
+		LHD_tfTongSoLuong.setText("0");
 	}
 	
 	private void LHD_LayThongTinKhachHang(ArrayList<KhachHang> dskh) {
@@ -631,63 +667,96 @@ public class HoaDonGUI extends JPanel {
 			LHD_cbKhachHang.addItem(i.getHoTen() +"-"+ i.getMa());
 	}
 	
-	private void LHD_btnLamMoi_LamMoi(){
-		LHD_LayThongTinKhachHang(BLL.KhachHangBLL.layDanhSachKhachHang());
-	}
-	
 	private void XHD_HienThiDSHD(ArrayList<HoaDon> dshd) {
 		XHD_tModelDSHD.setRowCount(0);
 		XHD_DSHD = dshd;
 		for (HoaDon hoaDon: XHD_DSHD) {
-//			String trangThai = "";
-//			if(hoaDon.getTrangThai()) trangThai = "Đã thanh toán";
-//			else trangThai = "Chưa thanh toán";
 			XHD_tModelDSHD.addRow(new Object[] {hoaDon.getMaPhieu(),hoaDon.getNhanVien().getMa(),hoaDon.getKhachHang().getMa(), 
 					hoaDon.getNgayLap(), hoaDon.getTongTien()});
 		}
 	}
 	
-	private void timKiemHoaDon(String loaiTimKiem, String tenTimKiem) {
-		ArrayList<HoaDon> XHD_DSHD = new ArrayList<HoaDon>();
-		switch(loaiTimKiem){
-		case "Mã hóa đơn":
-			for (HoaDon hd: XHD_DSHD) {
-				if (hd.getMaPhieu().equals(tenTimKiem.toUpperCase())) {
-					XHD_DSHD.add(hd);
-				}
+//	private void timKiemHoaDon(String loaiTimKiem, String tenTimKiem) {
+//		ArrayList<HoaDon> XHD_DSHD = new ArrayList<HoaDon>();
+//		switch(loaiTimKiem){
+//		case "Mã hóa đơn":
+//			for (HoaDon hd: XHD_DSHD) {
+//				if (hd.getMaPhieu().equals(tenTimKiem.toUpperCase())) {
+//					XHD_DSHD.add(hd);
+//				}
+//			}
+//			break;
+//		case "Mã khách hàng":
+//			for (HoaDon hd: XHD_DSHD) {
+//				if (hd.getKhachHang().getMa().equals(tenTimKiem.toUpperCase())) {
+//					XHD_DSHD.add(hd);
+//				}
+//			}
+//			break;
+//		case "Mã nhân viên":
+//			for (HoaDon hd: XHD_DSHD) {
+//				if (hd.getNhanVien().getMa().equals(tenTimKiem.toUpperCase())) {
+//					XHD_DSHD.add(hd);
+//				}
+//			}
+//			break;
+//		case "Tên khách hàng":
+//			for (HoaDon hd: XHD_DSHD) {
+//				if (hd.getKhachHang().getHoTen().equals(tenTimKiem.toUpperCase())) {
+//					XHD_DSHD.add(hd);
+//				}
+//			}
+//			break;
+//		case "Tên nhân viên":for (HoaDon hd: XHD_DSHD) {
+//			if (hd.getNhanVien().getHoTen().equals(tenTimKiem.toUpperCase())) {
+//				XHD_DSHD.add(hd);
+//			}
+//		}
+//			break;
+//		}
+//		XHD_HienThiDSHD(XHD_DSHD);
+//	}
+	
+	private void XHD_btnTimKiemHD_TimKiemHD() {
+		int i = XHD_cbTimKiemHD.getSelectedIndex();
+		String timKiem = XHD_tfTimKiemHD.getText();
+		ArrayList<HoaDon> DSHDTimKiem = new ArrayList<HoaDon>();
+		if(i > 0 && !timKiem.equals("")) {
+			XHD_HienThiDSHD(BLL.HoaDonBLL.layDanhSachHD());
+			switch(i) {
+				case 1:
+					for(HoaDon hd : XHD_DSHD) {
+						if(hd.getMaPhieu().contains(timKiem)) {
+							DSHDTimKiem.add(hd);
+						}
+					}
+					break;
+				case 2:
+					for(HoaDon hd : XHD_DSHD) {
+						if(hd.getNhanVien().getMa().contains(timKiem)) {
+							DSHDTimKiem.add(hd);
+						}
+					}
+					break;
+				case 3:
+					for(HoaDon hd : XHD_DSHD) {
+						if(hd.getKhachHang().getMa().contains(timKiem)) {
+							DSHDTimKiem.add(hd);
+						}
+					}
+					break;
+				default:
+					break;
 			}
-			break;
-		case "Mã khách hàng":
-			for (HoaDon hd: XHD_DSHD) {
-				if (hd.getKhachHang().getMa().equals(tenTimKiem.toUpperCase())) {
-					XHD_DSHD.add(hd);
-				}
-			}
-			break;
-		case "Mã nhân viên":
-			for (HoaDon hd: XHD_DSHD) {
-				if (hd.getNhanVien().getMa().equals(tenTimKiem.toUpperCase())) {
-					XHD_DSHD.add(hd);
-				}
-			}
-			break;
-		case "Tên khách hàng":
-			for (HoaDon hd: XHD_DSHD) {
-				if (hd.getKhachHang().getHoTen().equals(tenTimKiem.toUpperCase())) {
-					XHD_DSHD.add(hd);
-				}
-			}
-			break;
-		case "Tên nhân viên":for (HoaDon hd: XHD_DSHD) {
-			if (hd.getNhanVien().getHoTen().equals(tenTimKiem.toUpperCase())) {
-				XHD_DSHD.add(hd);
-			}
+			XHD_HienThiDSHD(DSHDTimKiem);
+		} else {
+			XHD_HienThiDSHD(BLL.HoaDonBLL.layDanhSachHD());
 		}
-			break;
-		}
-		XHD_HienThiDSHD(XHD_DSHD);
 	}
 	
+	private void XHD_btnHuyTimKiemHD_HuyTimKiemHD(){
+		XHD_HienThiDSHD(BLL.HoaDonBLL.layDanhSachHD());
+	}
 
 	private void XHD_HienThiDSCTHD(int i) {
 		XHD_tModelDSCTHD.setRowCount(0);

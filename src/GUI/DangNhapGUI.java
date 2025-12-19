@@ -36,6 +36,7 @@ public class DangNhapGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public DangNhapGUI() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("image/icon/user.png"));
 		setTitle("Đăng nhập");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,12 +65,12 @@ public class DangNhapGUI extends JFrame {
 		lblDangNhap.setBounds(10, 24, 588, 31);
 		contentPane.add(lblDangNhap);
 		
-		tfTenDangNhap = new JTextField();
+		tfTenDangNhap = new JTextField("NV00001");
 		tfTenDangNhap.setBounds(330, 106, 226, 19);
 		contentPane.add(tfTenDangNhap);
 		tfTenDangNhap.setColumns(10);
 		
-		tfMatKhau = new JPasswordField();
+		tfMatKhau = new JPasswordField("123");
 		tfMatKhau.setColumns(10);
 		tfMatKhau.setBounds(330, 164, 226, 19);
 		contentPane.add(tfMatKhau);

@@ -32,7 +32,7 @@ public class HoaDonDAL extends DatabaseAccess{
     public static boolean lapHoaDon(HoaDon hoaDon) {
     	try {
     		getConnection();
-    		String s = "INSERT INTO HOA_DON VALUES(?,?,?,?,?)";
+    		String s = "INSERT INTO `HOA_DON` VALUES(?,?,?,?,?)";
     		ps = conn.prepareStatement(s);
     		ps.setString(1, hoaDon.getMaPhieu());
     		ps.setString(2, hoaDon.getKhachHang().getMa());
@@ -44,7 +44,7 @@ public class HoaDonDAL extends DatabaseAccess{
     		int i = ps.executeUpdate();
     		
     		for(ChiTietPhieu ctp: hoaDon.getDSCT()) {
-	    		String s1 = "INSERT INTO CT_HOA_DON VALUES(?,?,?,?,?)";
+	    		String s1 = "INSERT INTO `CT_HOA_DON` VALUES(?,?,?,?,?)";
 	    		ps = conn.prepareStatement(s1);
 	    		ps.setString(1, hoaDon.getMaPhieu());
 	    		ps.setString(2, ctp.getSanPham().getMaSanPham());
@@ -53,12 +53,10 @@ public class HoaDonDAL extends DatabaseAccess{
 	    		ps.setDouble(5, ctp.getThanhTien());
 	    		ps.executeUpdate();
     		}
-    		System.out.println("Cap nhat chi tiet thanh cong");
     		closeConnection();
     		if (i > 0) {
     			for (ChiTietPhieu ctp : hoaDon.getDSCT()) {
     				if (SanPhamDAL.capNhatSoLuongSP(ctp.getSanPham().getMaSanPham(), ctp.getSanPham().getSoLuong())) {
-    					System.out.println("Cap nhat so luong thanh cong");
     				} 
     			}
     			return true;
@@ -70,29 +68,29 @@ public class HoaDonDAL extends DatabaseAccess{
     	return false;
     }
     
-//    public static boolean xoaHoaDon(HoaDon hoaDon) {
-//    	try {
-//    		getConnection();
-//    		String s = "UPDATE HOA_DON SET TINH_TRANG = 'False' WHERE MA_HD = '" + hoaDon.getMaPhieu() + "'";
-//    		statement = conn.createStatement();
-//    		int i = statement.executeUpdate(s);
-//    		if (i > 0) {
-//    			closeConnection();
-//    			return true;
-//    		}
-//    		else {
-//    			closeConnection();
-//    			return false;
-//    		}
-//    	}
-//    	catch(Exception ex) {
-//    		System.out.println(ex.getMessage());
-//    	}
-//    	finally {
-//    		closeConnection();
-//    	}
-//    	return false;
-//    }
+    public static boolean xoaHoaDon(HoaDon hoaDon) {
+    	try {
+    		getConnection();
+    		String s = "UPDATE `HOA_DON` SET TINH_TRANG = 0 WHERE MA_HD = '" + hoaDon.getMaPhieu() + "'";
+    		statement = conn.createStatement();
+    		int i = statement.executeUpdate(s);
+    		if (i > 0) {
+    			closeConnection();
+    			return true;
+    		}
+    		else {
+    			closeConnection();
+    			return false;
+    		}
+    	}
+    	catch(Exception ex) {
+    		System.out.println(ex.getMessage());
+    	}
+    	finally {
+    		closeConnection();
+    	}
+    	return false;
+    }
 //    
 //    public static boolean suaHoaDon(HoaDon hoaDon) {
 //    	try {
@@ -122,8 +120,8 @@ public class HoaDonDAL extends DatabaseAccess{
     	ArrayList<HoaDon> danhSachHoaDon = new ArrayList<HoaDon>();
     	try {
     		getConnection();
-    		String s1 = "SELECT MA_HD,MA_KH, MA_NV, FORMAT([NGAY_LAP], 'dd-MM-yyyy HH:mm') NGAY, TONG_TIEN"
-    				+ " FROM HOA_DON";
+    		String s1 = "SELECT MA_HD,MA_KH, MA_NV, Date_Format(NGAY_LAP, '%d-%m-%Y %H:%i:%s') NGAY, TONG_TIEN"
+    				+ " FROM `HOA_DON`";
     		statement = conn.createStatement();
     		resultSet = statement.executeQuery(s1);
     		while(resultSet.next()) {
@@ -133,7 +131,7 @@ public class HoaDonDAL extends DatabaseAccess{
     			String ngayLap = resultSet.getString(4);
     			double tongTien = resultSet.getDouble(5);
     			
-    			String s2 = "SELECT SP.MA_SP, SP.TEN_SP, CTHD.DON_GIA, CTHD.SO_LUONG, CTHD.THANH_TIEN FROM CT_HOA_DON CTHD, SAN_PHAM SP WHERE CTHD.MA_HD = '" + maHD + "' AND CTHD.MA_SP = SP.MA_SP";
+    			String s2 = "SELECT SP.MA_SP, SP.TEN_SP, CTHD.DON_GIA, CTHD.SO_LUONG, CTHD.THANH_TIEN FROM `CT_HOA_DON` CTHD, `SAN_PHAM` SP WHERE CTHD.MA_HD = '" + maHD + "' AND CTHD.MA_SP = SP.MA_SP";
     			statement = conn.createStatement();
         		resultSet1 = statement.executeQuery(s2);
         		ArrayList<ChiTietPhieu> dsct = new ArrayList<ChiTietPhieu>();
@@ -152,7 +150,7 @@ public class HoaDonDAL extends DatabaseAccess{
         			ChiTietPhieu ctp = new ChiTietPhieu(sanPham,thanhTien);
         			dsct.add(ctp);
         		}
-        		String s3 = "SELECT KH.HO_TEN, NV.HO_TEN FROM KHACH_HANG KH, NHAN_VIEN NV WHERE KH.MA_KH = '" +maKH+ "' AND NV.MA_NV = '" +maNV+ "'";
+        		String s3 = "SELECT KH.HO_TEN, NV.HO_TEN FROM `KHACH_HANG` KH, `NHAN_VIEN` NV WHERE KH.MA_KH = '" +maKH+ "' AND NV.MA_NV = '" +maNV+ "'";
         		statement = conn.createStatement();
         		String tenKH = ""; String tenNV = "";
         		resultSet1 = statement.executeQuery(s3);

@@ -26,7 +26,7 @@ public class SanPhamDAL extends DatabaseAccess{
     public static boolean themSanPham(SanPham sanPham) {
     	try {
 			getConnection();
-			String s = "INSERT INTO SAN_PHAM VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			String s = "INSERT INTO `SAN_PHAM` VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(s);
 			ps.setString(1, taoMaSanPham());
 			ps.setString(2, sanPham.getTenSanPham());
@@ -57,7 +57,7 @@ public class SanPhamDAL extends DatabaseAccess{
 	public static boolean xoaSanPham(SanPham sanPham){
 		try {
 			getConnection();
-			String s = "UPDATE SAN_PHAM SET TINH_TRANG = 'False' WHERE MA_SP = '" + sanPham.getMaSanPham() + "'";
+			String s = "UPDATE `SAN_PHAM` SET TINH_TRANG = 0 WHERE MA_SP = '" + sanPham.getMaSanPham() + "'";
 			statement = conn.createStatement();
 			if(statement.executeUpdate(s) > 0) {
 				closeConnection();
@@ -85,7 +85,7 @@ public class SanPhamDAL extends DatabaseAccess{
 //					", ANH_SAN_PHAM = (SELECT  BULKCOLUMN FROM OPENROWSET(BULK  '" + sanPham.getFilePath() +"', SINGLE_BLOB) AS x)   WHERE MA_SP = '" + sanPham.getMaSanPham() + "'";
 //			} 
 			
-				s = "UPDATE SAN_PHAM SET TEN_SP = '"+ sanPham.getTenSanPham() +"', CHAT_LIEU = '" + sanPham.getChatLieu() + "', DON_VI_TINH = '" + sanPham.getDonVi() + "', MA_LOAI_SP = '" + sanPham.getLoaiSanPham().getMaLoaiSanPham() + 
+				s = "UPDATE `SAN_PHAM` SET TEN_SP = '"+ sanPham.getTenSanPham() +"', CHAT_LIEU = '" + sanPham.getChatLieu() + "', DON_VI_TINH = '" + sanPham.getDonVi() + "', MA_LOAI_SP = '" + sanPham.getLoaiSanPham().getMaLoaiSanPham() + 
 					"', MA_NCC = '" + sanPham.getNhaCC().getMaNhaCC() + "', GIA_NHAP = " + sanPham.getGiaNhap() + ", GIA_BAN = " + sanPham.getGiaBan() +
 					", ANH_SAN_PHAM = '" + sanPham.getFilePath() +"' WHERE MA_SP = '" + sanPham.getMaSanPham() + "'";
 //				else {
@@ -104,7 +104,6 @@ public class SanPhamDAL extends DatabaseAccess{
 			}
     	}
     	catch(Exception ex) {
-    		System.out.print(sanPham.getLoaiSanPham().getMaLoaiSanPham());
     		System.out.println(ex.getMessage());
     	}
 		closeConnection();
@@ -116,14 +115,14 @@ public class SanPhamDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			int n = 0;
-    		String s = "SELECT SO_LUONG FROM SAN_PHAM WHERE MA_SP='"+maSanPham+"'";
+    		String s = "SELECT SO_LUONG FROM `SAN_PHAM` WHERE MA_SP='" + maSanPham + "'";
     		statement = conn.createStatement();
     		resultSet = statement.executeQuery(s);
     		while(resultSet.next()) {
     			n = resultSet.getInt(1);
     		}
     		n -= soLuong;
-    		String s1 = "UPDATE SAN_PHAM SET SO_LUONG=" + n + " WHERE MA_SP = '" + maSanPham + "'";
+    		String s1 = "UPDATE `SAN_PHAM` SET SO_LUONG=" + n + " WHERE MA_SP = '" + maSanPham + "'";
     		statement = conn.createStatement();
     		int i = statement.executeUpdate(s1);
     		if (i > 0) {
@@ -141,7 +140,7 @@ public class SanPhamDAL extends DatabaseAccess{
 		int i = 0;
 		try {
 			getConnection();
-			String s = "SELECT SO_LUONG FROM SAN_PHAM WHERE MA_SP = '" + maSP +"'";
+			String s = "SELECT SO_LUONG FROM `SAN_PHAM` WHERE MA_SP = '" + maSP +"'";
 			statement = conn.createStatement();
 			resultSet = statement.executeQuery(s);
 			while(resultSet.next()) {
@@ -160,8 +159,8 @@ public class SanPhamDAL extends DatabaseAccess{
 		try{
 			getConnection();
 			String s = "SELECT SP.MA_SP, SP.TEN_SP, SP.CHAT_LIEU, SP.DON_VI_TINH,SP.MA_LOAI_SP,LSP.TEN_LOAI_SP, NCC.MA_NCC, NCC.TEN_NCC, SP.GIA_NHAP, SP.GIA_BAN, SP.SO_LUONG, SP.ANH_SAN_PHAM "+
-						"FROM SAN_PHAM SP INNER JOIN NHA_CUNG_CAP NCC " +
-						"ON SP.MA_NCC = NCC.MA_NCC INNER JOIN LOAI_SP LSP ON SP.MA_LOAI_SP = LSP.MA_LOAI_SP WHERE SP.TINH_TRANG = 'True'";
+						"FROM `SAN_PHAM` SP INNER JOIN `NHA_CUNG_CAP` NCC " +
+						"ON SP.MA_NCC = NCC.MA_NCC INNER JOIN `LOAI_SP` LSP ON SP.MA_LOAI_SP = LSP.MA_LOAI_SP WHERE SP.TINH_TRANG = 1";
 			statement = conn.createStatement();
 			resultSet = statement.executeQuery(s);
 			while(resultSet.next()){
@@ -190,4 +189,21 @@ public class SanPhamDAL extends DatabaseAccess{
 		closeConnection();
 		return danhSachSanPham;
 	}
+
+
+//	public static boolean xoaSanPham(SanPham sanPham) {
+//		boolean checked = false;
+//		try {
+//			getConnection();
+//			String s = "UPDATE SAN_PHAM SET TINH_TRANG = 'False' WHERE MA_SP = '" +sanPham.getMaSanPham()+ "'";
+//			statement = conn.createStatement();
+//			int result = statement.executeUpdate(s);
+//			if(result > 0) checked = true;
+//			else checked = false;
+//		} catch(Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//		closeConnection();
+//		return checked;
+//	}
 }

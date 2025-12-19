@@ -459,7 +459,7 @@ public class SanPhamGUI extends JPanel {
 					}
 				});
 				btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				btnTimKiem.setBounds(378, 80, 92, 23);
+				btnTimKiem.setBounds(373, 70, 92, 38);
 				panelTimKiem.add(btnTimKiem);
 				
 				JButton btnHuyTimKiem = new JButton("Hủy");
@@ -470,7 +470,7 @@ public class SanPhamGUI extends JPanel {
 					}
 				});
 				btnHuyTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				btnHuyTimKiem.setBounds(475, 80, 92, 23);
+				btnHuyTimKiem.setBounds(475, 70, 92, 38);
 				panelTimKiem.add(btnHuyTimKiem);
 				
 				JPanel panelTheKho = new JPanel();

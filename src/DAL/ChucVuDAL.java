@@ -9,7 +9,7 @@ public class ChucVuDAL extends DatabaseAccess {
 		ArrayList<ChucVu> danhSachLoaiCV = new ArrayList<ChucVu>();
 		try {
 			getConnection();
-			String s = "SELECT * FROM CHUC_VU";
+			String s = "SELECT * FROM `CHUC_VU`";
 			statement = conn.createStatement();
 			resultSet = statement.executeQuery(s);
 			while(resultSet.next()) {

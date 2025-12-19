@@ -9,7 +9,7 @@ public class LoaiSanPhamDAL extends DatabaseAccess{
 	public static boolean themLoaiSP(LoaiSanPham lsp) {
 		try {
 			getConnection();
-			String s = "INSERT INTO LOAI_SP VALUES(?,?)";
+			String s = "INSERT INTO `LOAI_SP` VALUES(?,?)";
 			ps = conn.prepareStatement(s);
 			ps.setString(1, lsp.getMaLoaiSanPham());
 			ps.setString(2, lsp.getTenLoaiSanPham());
@@ -28,7 +28,7 @@ public class LoaiSanPhamDAL extends DatabaseAccess{
 	public static boolean xoaLoaiSP(LoaiSanPham lsp) {
 		try {
 			getConnection();
-			String s = " UPDATE SAN_PHAM SET MA_LOAI_SP = NULL WHERE MA_LOAI_SP='"+lsp.getMaLoaiSanPham()+"';DELETE FROM LOAI_SP WHERE MA_LOAI_SP = '" +lsp.getMaLoaiSanPham()+ "'";
+			String s = " UPDATE `SAN_PHAM` SET MA_LOAI_SP = NULL WHERE MA_LOAI_SP='"+lsp.getMaLoaiSanPham()+"';DELETE FROM `LOAI_SP` WHERE MA_LOAI_SP = '" +lsp.getMaLoaiSanPham()+ "'";
 			statement = conn.createStatement();
 			int i = statement.executeUpdate(s);
 			if(i > 0) {
@@ -55,7 +55,7 @@ public class LoaiSanPhamDAL extends DatabaseAccess{
 		ArrayList<LoaiSanPham> danhSachLoaiSP = new ArrayList<LoaiSanPham>();
 		try {
 			getConnection();
-			String s = "SELECT * FROM LOAI_SP";
+			String s = "SELECT * FROM `LOAI_SP`";
 			statement = conn.createStatement();
 			resultSet = statement.executeQuery(s);
 			while(resultSet.next()) {

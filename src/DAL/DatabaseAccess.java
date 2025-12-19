@@ -2,9 +2,10 @@ package DAL;
 import java.sql.*;
 
 class DatabaseAccess {
-    private static String conString = "jdbc:sqlserver://LAPTOP-QNC29JHR;databaseName=QLVPP";
-    private static String username = "sa1";
-    private static String passwd = "123";
+    // private static String conString = "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=QLVPP;integratedSecurity=true;encrypt=true;trustServerCertificate=true;";
+    private static String conString = "jdbc:mysql://localhost:3306/qlvpp?useSSL=false&serverTimezone=UTC";
+    private static String username = "root";
+    private static String passwd = "";
     protected static Connection conn;
     protected static Statement statement;
     protected static PreparedStatement ps;

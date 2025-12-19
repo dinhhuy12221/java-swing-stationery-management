@@ -10,7 +10,7 @@ public class TaiKhoanDAL extends DatabaseAccess{
     public static boolean themTaiKhoan(TaiKhoan taiKhoan) {
     	try {
     		getConnection();
-    		String s = "INSERT INTO TAI_KHOAN VALUES (?,?,?)";
+    		String s = "INSERT INTO `tai_khoan` VALUES (?,?,?)";
     		ps = conn.prepareStatement(s);
     		ps.setString(1, taiKhoan.getTenDangNhap());
     		ps.setString(2, taiKhoan.getMatKhau());
@@ -33,7 +33,7 @@ public class TaiKhoanDAL extends DatabaseAccess{
     public static boolean xoaTaiKhoan(TaiKhoan taiKhoan) {
     	try {
     		getConnection();
-    		String s = "DELETE FROM TAI_KHOAN WHERE TEN_DANG_NHAP = '" + taiKhoan.getTenDangNhap() + "'";
+    		String s = "DELETE FROM `tai_khoan` WHERE TEN_DANG_NHAP = '" + taiKhoan.getTenDangNhap() + "'";
     		statement = conn.createStatement();
     		int i = statement.executeUpdate(s);
     		closeConnection();
@@ -52,7 +52,7 @@ public class TaiKhoanDAL extends DatabaseAccess{
     public static boolean suaTaiKhoan(TaiKhoan taiKhoan) {
     	try {
     		getConnection();
-    		String s = "UPDATE TAI_KHOAN SET MAT_KHAU = ?, TINH_TRANG = ? WHERE TEN_DANG_NHAP = ?";
+    		String s = "UPDATE `tai_khoan` SET MAT_KHAU = ?, TINH_TRANG = ? WHERE TEN_DANG_NHAP = ?";
     		ps = conn.prepareStatement(s);
     		ps.setString(1, taiKhoan.getMatKhau());
     		boolean tinhTrang = taiKhoan.getTinhTrang().equals("1") ? true : false;
@@ -76,7 +76,7 @@ public class TaiKhoanDAL extends DatabaseAccess{
     	ArrayList<TaiKhoan> dstk = new ArrayList<TaiKhoan>();
     	try {
     		getConnection();
-	    	String s = "SELECT TK.TEN_DANG_NHAP, NV.HO_TEN,CV.MA_CHUC_VU, CV.TEN_CHUC_VU ,TK.MAT_KHAU, TK.TINH_TRANG FROM TAI_KHOAN TK, NHAN_VIEN NV, CHUC_VU CV WHERE TK.TEN_DANG_NHAP = MA_NV AND CV.MA_CHUC_VU = NV.MA_CHUC_VU";
+	    	String s = "SELECT TK.TEN_DANG_NHAP, NV.HO_TEN,CV.MA_CHUC_VU, CV.TEN_CHUC_VU ,TK.MAT_KHAU, TK.TINH_TRANG FROM `tai_khoan` TK, `NHAN_VIEN` NV, CHUC_VU CV WHERE TK.TEN_DANG_NHAP = MA_NV AND CV.MA_CHUC_VU = NV.MA_CHUC_VU";
 	    	statement = conn.createStatement();
 	    	resultSet = statement.executeQuery(s);
 	    	while(resultSet.next()) {
@@ -105,7 +105,7 @@ public class TaiKhoanDAL extends DatabaseAccess{
     	ArrayList<NhanVien> dsnv = new ArrayList<NhanVien>();
     	try {
     		getConnection();
-	    	String s = "SELECT NV.MA_NV, NV.HO_TEN, CV.MA_CHUC_VU, CV.TEN_CHUC_VU  FROM NHAN_VIEN NV ,CHUC_VU CV WHERE NV.MA_CHUC_VU = CV.MA_CHUC_VU AND NV.TINH_TRANG = 'True' AND NV.MA_NV NOT IN (SELECT TEN_DANG_NHAP FROM TAI_KHOAN)";
+	    	String s = "SELECT NV.MA_NV, NV.HO_TEN, CV.MA_CHUC_VU, CV.TEN_CHUC_VU  FROM `NHAN_VIEN` NV, `CHUC_VU` CV WHERE NV.MA_CHUC_VU = CV.MA_CHUC_VU AND NV.TINH_TRANG = 1 AND NV.MA_NV NOT IN (SELECT TEN_DANG_NHAP FROM `tai_khoan`)";
 	    	statement = conn.createStatement();
 	    	resultSet = statement.executeQuery(s);
 	    	while(resultSet.next()) {

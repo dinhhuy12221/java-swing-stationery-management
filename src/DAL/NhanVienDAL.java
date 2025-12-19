@@ -10,7 +10,7 @@ public class NhanVienDAL extends DatabaseAccess{
 //    	ArrayList<NhanVien> dsnv = new ArrayList<NhanVien>();
 //    	try {
 //    		getConnection();
-//    		String s = "SELECT MA_NV,HO_TEN,DIA_CHI,SDT,NGAY_SINH,MA_CHUC_VU, LUONG FROM NHAN_VIEN WHERE TINH_TRANG = 'True'";
+//    		String s = "SELECT MA_NV,HO_TEN,DIA_CHI,SDT,NGAY_SINH,MA_CHUC_VU, LUONG FROM `NHAN_VIEN` WHERE TINH_TRANG = 'True'";
 //    		statement = conn.createStatement();
 //    		resultSet = statement.executeQuery(s);
 //    		while(resultSet.next()) {
@@ -55,7 +55,7 @@ public class NhanVienDAL extends DatabaseAccess{
 	public static boolean themNhanVien(NhanVien NhanVien) {
     	try {
 			getConnection();
-			String s = "INSERT INTO NHAN_VIEN VALUES(?,?,?,?,?,?,?,?,?)";
+			String s = "INSERT INTO `NHAN_VIEN` VALUES(?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(s);
 			ps.setString(1, taoMaNhanVien());
 			ps.setString(2, NhanVien.getHoTen());
@@ -84,7 +84,7 @@ public class NhanVienDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			String s;
-				s = "UPDATE NHAN_VIEN SET TINH_TRANG = 'False' WHERE MA_NV = '" + NhanVien.getMa() + "'";
+				s = "UPDATE `NHAN_VIEN` SET TINH_TRANG = 0 WHERE MA_NV = '" + NhanVien.getMa() + "'";
 			statement = conn.createStatement();
 			if(statement.executeUpdate(s) > 0) {
 				closeConnection();
@@ -105,7 +105,7 @@ public class NhanVienDAL extends DatabaseAccess{
 //		int i = 0;
 //		try {
 //			getConnection();
-//			String s = "SELECT COUNT(*) FROM NHAN_VIEN";
+//			String s = "SELECT COUNT(*) FROM `NHAN_VIEN`";
 //			statement = conn.createStatement();
 //			resultSet = statement.executeQuery(s);
 //			while(resultSet.next()) {
@@ -122,9 +122,9 @@ public class NhanVienDAL extends DatabaseAccess{
 		ArrayList<NhanVien> danhSachNhanVien = new ArrayList<NhanVien>();
 		try{
 			getConnection();
-			String s = "SELECT MA_NV,HO_TEN,DIA_CHI,SDT,FORMAT([NGAY_SINH], 'dd-MM-yyyy'),A.MA_CHUC_VU,TEN_CHUC_VU,LUONG,ANH_NHAN_VIEN "+
-						"FROM NHAN_VIEN AS A INNER JOIN CHUC_VU AS B ON A.MA_CHUC_VU=B.MA_CHUC_VU "+
-					    "WHERE TINH_TRANG ='True'";
+			String s = "SELECT MA_NV, HO_TEN, DIA_CHI, SDT, DATE_FORMAT(NGAY_SINH, '%d-%m-%Y'), A.MA_CHUC_VU, TEN_CHUC_VU, LUONG, ANH_NHAN_VIEN "+
+						"FROM `NHAN_VIEN` AS A INNER JOIN `CHUC_VU` AS B ON A.MA_CHUC_VU=B.MA_CHUC_VU "+
+					    "WHERE TINH_TRANG = 1";
 			statement = conn.createStatement();
 			resultSet = statement.executeQuery(s);
 			while(resultSet.next()){
@@ -155,7 +155,7 @@ public class NhanVienDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			String s = "";
-			s = "UPDATE NHAN_VIEN SET HO_TEN = '"+ nhanvien.getHoTen() +"', DIA_CHI = '" + nhanvien.getDiaChi() + "', SDT = '" + nhanvien.getSoDienThoai() + 
+			s = "UPDATE `NHAN_VIEN` SET HO_TEN = '"+ nhanvien.getHoTen() +"', DIA_CHI = '" + nhanvien.getDiaChi() + "', SDT = '" + nhanvien.getSoDienThoai() + 
 				"', NGAY_SINH = '" + nhanvien.getNgaySinh() + "', MA_CHUC_VU = '" + nhanvien.getChucVu().getMaChucVu() + "', LUONG = " + nhanvien.getLuong() +", ANH_NHAN_VIEN = '"+nhanvien.getAnhFilePath()+"'  WHERE MA_NV = '" + nhanvien.getMa() + "'";
 			statement = conn.createStatement();
 			if(statement.executeUpdate(s) > 0) {

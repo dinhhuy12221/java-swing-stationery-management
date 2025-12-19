@@ -11,7 +11,7 @@ public class TheKhoDAL extends DatabaseAccess{
 		boolean checked = false;
 		try {
 			getConnection();
-			String s = "INSERT INTO THE_KHO VALUES(?,?,?,?,?,?)";
+			String s = "INSERT INTO `THE_KHO` VALUES(?,?,?,?,?,?)";
 			ps = conn.prepareStatement(s);
 			ps.setString(1, ctp.getSanPham().getMaSanPham());
 			ps.setString(2, maPhieu);
@@ -33,7 +33,7 @@ public class TheKhoDAL extends DatabaseAccess{
 		ArrayList<TheKho> dstk = new ArrayList<TheKho>();
 		try {
 			getConnection();
-			String s = "SELECT MA_SP, MA_PHIEU, FORMAT([NGAY_LAP], 'dd-MM-yyyy HH:mm'), TONG_GIA_TRI, SO_LUONG, TON_CUOI FROM THE_KHO WHERE MA_SP = '" +
+			String s = "SELECT MA_SP, MA_PHIEU, DATE_FORMAT(NGAY_LAP, '%Y-%m-%d %H:%i:%s'), TONG_GIA_TRI, SO_LUONG, TON_CUOI FROM `THE_KHO` WHERE MA_SP = '" +
 		    maSP + "' ORDER BY NGAY_LAP DESC";
 			statement = conn.createStatement();
 			resultSet = statement.executeQuery(s);

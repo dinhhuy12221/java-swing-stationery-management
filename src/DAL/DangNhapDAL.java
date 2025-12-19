@@ -8,8 +8,8 @@ public class DangNhapDAL extends DatabaseAccess{
     public static TaiKhoan isLogin(TaiKhoan taiKhoan){
         try{
         	getConnection();
-            String select = "SELECT TEN_DANG_NHAP, MAT_KHAU, NV.MA_CHUC_VU FROM TAI_KHOAN TK, NHAN_VIEN NV WHERE TK.TINH_TRANG = 'True' AND TK.TEN_DANG_NHAP = NV.MA_NV AND "
-            		+ "TK.TEN_DANG_NHAP = '" +taiKhoan.getTenDangNhap()+ "'";
+            String select = "SELECT TK.TEN_DANG_NHAP, TK.MAT_KHAU, NV.MA_CHUC_VU FROM `tai_khoan` TK, `NHAN_VIEN` NV WHERE TK.TINH_TRANG = 1 AND TK.TEN_DANG_NHAP = NV.MA_NV AND "
+            		+ "TK.TEN_DANG_NHAP = '" + taiKhoan.getTenDangNhap() + "'";
             statement = conn.createStatement();
             resultSet = statement.executeQuery(select);
             while(resultSet.next()){
@@ -25,7 +25,7 @@ public class DangNhapDAL extends DatabaseAccess{
             }
         }
         catch(Exception ex){
-            System.out.println(ex.getMessage());
+            System.out.println(ex.getMessage() + 123333);
         }
         closeConnection();
         return null;

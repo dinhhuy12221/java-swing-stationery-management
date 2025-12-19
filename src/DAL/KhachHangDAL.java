@@ -60,7 +60,7 @@ public class KhachHangDAL extends DatabaseAccess{
     	ArrayList<KhachHang> dskh = new ArrayList<KhachHang>();
     	try {
     		getConnection();
-    		String s = "SELECT MA_KH,HO_TEN,DIA_CHI,SDT,FORMAT([NGAY_SINH], 'dd-MM-yyyy') FROM KHACH_HANG WHERE TINH_TRANG = 'True'";
+    		String s = "SELECT MA_KH,HO_TEN,DIA_CHI,SDT, Date_Format(NGAY_SINH, '%d-%m-%Y') FROM `KHACH_HANG` WHERE TINH_TRANG = 1";
     		statement = conn.createStatement();
     		resultSet = statement.executeQuery(s);
     		while(resultSet.next()) {
@@ -126,10 +126,9 @@ public class KhachHangDAL extends DatabaseAccess{
 	}
     
     public static boolean themKhachHang(KhachHang KhachHang) {
-    	KhachHang.setMa(null);
     	try {
 			getConnection();
-			String s = "insert into khach_hang values(?,?,?,?,?,'True')";
+			String s = "insert into `khach_hang` values(?,?,?,?,?,1)";
 			ps = conn.prepareStatement(s);
 			ps.setString(1, KhachHang.getMa());
 			ps.setString(2, KhachHang.getHoTen());
@@ -155,7 +154,7 @@ public class KhachHangDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			String s;
-				s = "UPDATE KHACH_HANG SET tinh_trang = 'False' where MA_KH = '" + KhachHang.getMa() + "'";
+				s = "UPDATE `KHACH_HANG` SET tinh_trang = 0 where MA_KH = '" + KhachHang.getMa() + "'";
 			statement = conn.createStatement();
 			if(statement.executeUpdate(s) > 0) {
 				closeConnection();
@@ -176,7 +175,7 @@ public class KhachHangDAL extends DatabaseAccess{
     public static boolean SuaKhachHang(KhachHang KhachHang) {
 		try {
 			getConnection();
-			String s = "UPDATE KHACH_HANG SET HO_TEN = '"+ KhachHang.getHoTen() +"', DIA_CHI = '" + KhachHang.getDiaChi() + "', SDT = '" + KhachHang.getSoDienThoai() + 
+			String s = "UPDATE `KHACH_HANG` SET HO_TEN = '"+ KhachHang.getHoTen() +"', DIA_CHI = '" + KhachHang.getDiaChi() + "', SDT = '" + KhachHang.getSoDienThoai() + 
 					"', NGAY_SINH = '" + KhachHang.getNgaySinh() + "' WHERE MA_KH = '" +KhachHang.getMa()+"'";
 			statement = conn.createStatement();
 			if(statement.executeUpdate(s) > 0) {

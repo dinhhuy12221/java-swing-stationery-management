@@ -16,7 +16,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	try {
     		getConnection();
     		Statement stmt = conn.createStatement();
-    		String sql = "select * from phieu_nhap";
+    		String sql = "select * from `phieu_nhap`";
     		ResultSet rs = stmt.executeQuery(sql);
     		
     		while(rs.next()) {
@@ -46,7 +46,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	try {
     		getConnection();
     		Statement stmt = conn.createStatement();
-    		String sql = "select * from ct_phieu_nhap where ma_pn='"+mapn+"'";
+    		String sql = "select * from ct_`phieu_nhap` where ma_pn='"+mapn+"'";
     		ResultSet rs = stmt.executeQuery(sql);
     		
     		while(rs.next()) {
@@ -75,7 +75,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	try {
     		getConnection();
     		Statement stmt = conn.createStatement();
-    		String sql = "select ma_sp, ten_sp, gia_nhap, so_luong from san_pham where ma_ncc='"+mancc+"'";
+    		String sql = "select ma_sp, ten_sp, gia_nhap, so_luong from `san_pham` where ma_ncc='"+mancc+"'";
     		ResultSet rs = stmt.executeQuery(sql);
     		
     		while(rs.next()) {
@@ -121,7 +121,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
     		getConnection();
     		Statement stmt = conn.createStatement();
     		
-    		String sql = "insert into phieu_nhap values(?,?,?,?)";//tạo phiếu nhập
+    		String sql = "insert into `phieu_nhap` values(?,?,?,?)";//tạo phiếu nhập
     		ps = conn.prepareStatement(sql);//ps là prepared statement, TRIM XÓA HẾT KHOẢNG TRẮNG
     		ps.setString(1, pn.getMaPhieu());
 //    		ps.setString(2, pn.getNhaCC().getMaNhaCC().trim());
@@ -145,9 +145,9 @@ public class PhieuNhapDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			Statement stmt = conn.createStatement();
-			String xoact = "delete from ct_phieu_nhap where ma_pn='"+mapn+"'";
+			String xoact = "delete from `ct_phieu_nhap where ma_pn='"+mapn+"'";
 			int temp = stmt.executeUpdate(xoact);
-			String sql = "delete from phieu_nhap where ma_pn='"+mapn+"'";
+			String sql = "delete from `phieu_nhap` where ma_pn='"+mapn+"'";
 			dem = stmt.executeUpdate(sql);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -163,7 +163,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	try {
     		getConnection();
     		Statement stmt = conn.createStatement();
-    		String sql ="update phieu_nhap set ma_nv='"
+    		String sql ="update `phieu_nhap` set ma_nv='"
     					+ pn.getNhanVien().getMa() +"', ngay_lap='"
     					+ pn.getNgayLap()+"', tong_tien='"
     					+ pn.getTongTien()+"' where ma_pn='"+pn.getMaPhieu()+"'";
@@ -184,11 +184,11 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	try {
     		getConnection();
     		Statement stmt = conn.createStatement();
-    		ResultSet rs = stmt.executeQuery("select * from phieu_nhap where ma_pn='"+mapn+"' and ngay_lap='"+ngaytao+"'");
+    		ResultSet rs = stmt.executeQuery("select * from `phieu_nhap` where ma_pn='"+mapn+"' and ngay_lap='"+ngaytao+"'");
 			if(mapn.equals(""))
-				rs = stmt.executeQuery("select * from phieu_nhap where ngay_lap='"+ngaytao+"'");
+				rs = stmt.executeQuery("select * from `phieu_nhap` where ngay_lap='"+ngaytao+"'");
 			if(ngaytao.equals(""))
-				rs = stmt.executeQuery("select * from phieu_nhap where ma_pn='"+mapn+"'");
+				rs = stmt.executeQuery("select * from `phieu_nhap` where ma_pn='"+mapn+"'");
 			
 			while(rs.next()) {
 				String ma_pn = rs.getString(1);
@@ -216,7 +216,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	boolean rs = false;
     	try {
     		getConnection();
-    		String sql = "insert into ct_phieu_nhap values(?,?,?,?,?)";
+    		String sql = "insert into `ct_phieu_nhap values(?,?,?,?,?)";
     		ps = conn.prepareStatement(sql);//ps là prepared statement, TRIM XÓA HẾT KHOẢNG TRẮNG
     		
     		ps.setString(1, mapn);
@@ -240,12 +240,12 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	try {
     		getConnection();
     		//sau khi đã thêm vào ct phiếu nhập
-    		String sql="select sum(thanh_tien) from ct_phieu_nhap where ma_pn='"+mapn+"'";
+    		String sql="select sum(thanh_tien) from `ct_phieu_nhap` where ma_pn='"+mapn+"'";
     		Statement stmt = conn.createStatement();
     		ResultSet result = stmt.executeQuery(sql);
     		result.next();
     		double tongtien = result.getDouble(1);
-    		sql="update phieu_nhap set tong_tien="+tongtien+" where ma_pn='"+mapn+"'";
+    		sql="update `phieu_nhap` set tong_tien="+tongtien+" where ma_pn='"+mapn+"'";
     		int kq=stmt.executeUpdate(sql);
     		if(kq==1)
     			rs=true;
@@ -262,19 +262,19 @@ public class PhieuNhapDAL extends DatabaseAccess{
     	boolean rs = false;
     	try {
     		getConnection();
-    		String sql="select so_luong from ct_phieu_nhap where ma_sp='"+masp+"' and ma_pn = '"+mapn+"'";
+    		String sql="select so_luong from `ct_phieu_nhap` where ma_sp='"+masp+"' and ma_pn = '"+mapn+"'";
     		Statement stmt = conn.createStatement();
     		ResultSet result = stmt.executeQuery(sql);
     		result.next();
     		int sltrongpn = result.getInt(1);
     		
-    		sql = "select so_luong from san_pham where ma_sp='"+masp+"'";
+    		sql = "select so_luong from `san_pham` where ma_sp='"+masp+"'";
     		result = stmt.executeQuery(sql);
     		result.next();
     		int sltrongsp = result.getInt(1);
     		
     		int newsl = sltrongpn+sltrongsp;
-    		sql = "update san_pham set so_luong="+newsl+" where ma_sp='"+masp+"'";
+    		sql = "update `san_pham` set so_luong="+newsl+" where ma_sp='"+masp+"'";
     		int kq=stmt.executeUpdate(sql);
     		if(kq==1)
     			rs=true;
@@ -292,7 +292,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
 		try {
 			getConnection();	//HÀM TRIM() XÓA HẾT KHOẢNG TRẮNG
 			Statement stmt = conn.createStatement();
-			String sql = "update ct_phieu_nhap set don_gia='"+ncc.getSanPham().getGiaNhap()
+			String sql = "update `ct_phieu_nhap` set don_gia='"+ncc.getSanPham().getGiaNhap()
 					+"', so_luong='"+ncc.getSanPham().getSoLuong()
 					+"', thanh_tien='"+ncc.getThanhTien()
 					+"' where ma_sp='"+ncc.getSanPham().getMaSanPham()+"'";
@@ -312,7 +312,7 @@ public class PhieuNhapDAL extends DatabaseAccess{
 		try {
 			getConnection();
 			Statement stmt = conn.createStatement();
-			String sql = "delete from ct_phieu_nhap where ma_sp='"+masp+"'";
+			String sql = "delete from `ct_phieu_nhap` where ma_sp='"+masp+"'";
 			dem = stmt.executeUpdate(sql);
 		} catch(Exception e) {
 			System.out.println(e);
