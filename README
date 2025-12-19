@@ -1,15 +1,2 @@
-**Lưu ý
-		1) Trong lớp DAL Class DatabassAccess đổi tên host, username, passwd
-		2) Trong lớp GUI class SanPhamGUI dòng thứ 709 đổi đường dẫn file
-		3) main nằm trong default package
-		4) Trong sql server, click phải vào database của project => chọn properties => chọn permissions bên trái => tick hết ở cột grant
-		
-**Chưa hoàn thành
-		- Chức năng sửa đổi: ảnh sau khi lưu vào db nhưng không xuất ra màn hình
-		- Chức năng tìm kiếm: giá sản phẩm chưa hoàn thành
-	
-	
-	
-	
-	// Set max date ngày sinh line 228
-	
+## Snapshots
+
