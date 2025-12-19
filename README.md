@@ -1,7 +1,6 @@
 ## Snapshots
 
-![image](preview\Screenshot-2025-12-19-113102.png)
-
+![image](preview/Screenshot-2025-12-19-113102.png)
 ![image](preview\Screenshot2025-12-19113334.png)
 ![image](preview\Screenshot2025-12-19113120.png)
 ![image](preview\Screenshot2025-12-19113149.png)
